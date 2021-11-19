@@ -4,7 +4,6 @@ import { take } from "lodash";
 import { useRecoilValue } from "recoil";
 import { textState } from "../TextInputExample/TextInputExample.state";
 import TextInput from "../TextInputExample/TextInputExample.component";
-
 const Example = () => {
   const { data, error, isError, isLoading } = useQuery("posts", fetchPosts);
   // first argument is a string to cache and track the query result
