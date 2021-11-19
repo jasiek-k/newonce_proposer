@@ -1,38 +1,41 @@
-import axios, { AxiosInstance } from 'axios';
+import axios, { AxiosInstance } from "axios";
 
-const API_BASE = 'localhost:4000';
+const API_BASE = "localhost:4000";
 
 class ApiService {
   service: AxiosInstance;
+
   constructor() {
     let service = axios.create({
       // baseURL: API_BASE,
       headers: {
-        Accept: 'application/json text/plain',
-        'Content-Type': 'application/json;charset=UTF=8',
+        Accept: "application/json text/plain",
+        "Content-Type": "application/json;charset=UTF=8",
       },
     });
     this.service = service;
   }
 
   get<T>(url: string) {
+    console.log(API_BASE);
+
     return this.service.get<T>(url);
   }
 
   patch<T>(url: string, data: any) {
     return this.service.request<T>({
-      method: 'PATCH',
+      method: "PATCH",
       url,
-      responseType: 'json',
+      responseType: "json",
       data,
     });
   }
 
   post<T>(url: string, data: any) {
     return this.service.request<T>({
-      method: 'POST',
+      method: "POST",
       url,
-      responseType: 'json',
+      responseType: "json",
       data,
     });
   }
