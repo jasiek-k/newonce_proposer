@@ -22,7 +22,7 @@ const SpotifyExamplePlayer = () => {
         playlist = playlistData;
       }
       const uris = result.tracks.items.map((item) => item.uri);
-      if(playlist){
+      if (playlist){
         await SpotifyApiService.addToTrackToPlaylis(playlist.id, uris);
       }
       setCurrentPlaylistUri(playlist?.uri);
