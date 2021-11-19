@@ -1,9 +1,9 @@
 import { FormEvent, useState } from "react";
-import {
-  getAuth,
-  signInWithEmailAndPassword,
-  createUserWithEmailAndPassword,
-} from "firebase/auth";
+import { getAuth } from "firebase/auth";
+
+import db from "../config/firebase";
+
+import { createProfile, loginProfile } from "../utils/firestore";
 
 export default function FirebaseExample() {
   const [loginEmail, setLoginEmail] = useState<string>("");
@@ -16,27 +16,17 @@ export default function FirebaseExample() {
   const handleLogin = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    signInWithEmailAndPassword(auth, loginEmail, loginPassword)
-      .then((userCredential) => {
-        console.log("Zalogowano. User:");
-        console.log(userCredential.user);
-      })
-      .catch((err) => console.log(err));
+    loginProfile(auth)
   };
 
   const handleRegister = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    createUserWithEmailAndPassword(auth, registerEmail, registerPassword)
-      .then((userCredential) => {
-        console.log("Zarejestrowano. User:");
-        console.log(userCredential.user);
-      })
-      .catch((err) => console.log(err));
+    createProfile(db, auth, registerEmail, registerPassword);
   };
 
   return (
-    <div style={{ marginTop: "120px" }}>
+    <div>
       <h3>Firebase Login</h3>
       <form onSubmit={handleLogin}>
         <label htmlFor="example-email">E-mail:</label>
