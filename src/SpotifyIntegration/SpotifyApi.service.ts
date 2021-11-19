@@ -2,8 +2,10 @@ import SpotifyWebApi from "spotify-web-api-js";
 
 class SpotifyApi {
   // TODO: change to get from envs
-  ACCESS_TOKEN = 'BQBFVT_jB1ud5ZiOXzTlQMCaOZN0LWDLVov5eAIwpWcFueLKBUh0Cff-SsV61c1gX9OqDJAIB_3I2rJQNrPq7uXqTWLe8vIJiXfmpvPQqnsj6IZyR30QFiY9QjslJOHttlqF7K_xJdwX8MqgX4HcWgzlXxJ77kG6KT773zbk4dl9fiouuFv5L5oHamY5yzHQ2yjPBHQ36oM'
-  WEB_PLAYBACK_TOKEN = 'BQBe3b_TNiKXjM0o9xW1n5y7M7lQVnl8o_tWJXy_pwKWa5nHjeK8-ftCRTTTRrwcCuu3FJblDovw_C_tmy_yMPs-QRxhIUm8BL9tPvFLmCEH41tKJUYc9ZuasI4lECJ2r_Tw7H-kzOwApqtFxnHyXYtvf9OzaOI9Qy7Ke6B9NbeJ0E8U4RX319RrJcef'
+  ACCESS_TOKEN =
+    "BQDEEy5H2malMddv4AieOfQW-cLeGCEHx506Iijaq9v0XJc1-3886j7VVl7IiMtIaQ7VmrBwoVOxGebYrVus8XkAF6MDZXdu3X12xuxGGDYH9km6FS3x7OVmbCWs1MyJ_O1CWWzYhuYX8nE22OsS-pQG_6HAIzF6VYbGsVEsIGhOuBKtyNZMI9v-Dr_o2Oy0M-BHuwfbBQ4";
+  WEB_PLAYBACK_TOKEN =
+    "BQA68Owt3D8AoxHnKFhH14ztuQbwYXUHnudYTAf_ToBmchszeqPTkqjsXsqa2NcDRK76epCOzxFyidn_C2y_PqPttUIzAqjEQylqFaaEDETAGGNdzt0DFrTnTaTUxUSb-HBSqYGCXqDBKdL_9u6M3UHUZw3KrfKn843SvrdLj2Mm-3pkpfmDmngUM8JP";
   spotifyApi: SpotifyWebApi.SpotifyWebApiJs;
   userId: string | undefined;
 
@@ -11,7 +13,7 @@ class SpotifyApi {
     this.spotifyApi = new SpotifyWebApi();
     this.spotifyApi.setAccessToken(this.ACCESS_TOKEN);
   }
-  
+
   async getUserId() {
     this.userId = (await this.spotifyApi.getMe()).id;
     return this.userId;
@@ -22,11 +24,11 @@ class SpotifyApi {
   }
 
   async getPlaylists() {
-      return await this.spotifyApi.getUserPlaylists()
+    return await this.spotifyApi.getUserPlaylists();
   }
 
   async createPlaylist(name: string) {
-    if(this.userId) {
+    if (this.userId) {
       return await this.spotifyApi.createPlaylist(this.userId, {
         name,
         public: true,
@@ -35,7 +37,7 @@ class SpotifyApi {
   }
 
   async addToTrackToPlaylis(playlistId: string, tracksUris: string[]) {
-    if(this.userId) {
+    if (this.userId) {
       return this.spotifyApi.addTracksToPlaylist(playlistId, tracksUris);
     }
   }
