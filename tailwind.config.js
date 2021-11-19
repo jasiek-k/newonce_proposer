@@ -23,12 +23,16 @@ module.exports = {
     },
     spacing: {
       ...rem(4),
+      ...rem(12),
       ...rem(16),
+      ...rem(20),
       ...rem(26),
+      ...rem(30),
       ...rem(36),
       ...rem(40),
       ...rem(48),
       ...rem(50),
+      ...rem(360),
       ...rem(1128),
     },
     fontSize: {
@@ -36,6 +40,7 @@ module.exports = {
       ...rem(14),
       ...rem(16),
       ...rem(32),
+      ...rem(38),
     },
     fontFamily: {
       primary: ["HelveticaNowText"],
