@@ -43,49 +43,6 @@ const AddToPlaylist = () => {
     });
   };
 
-  const activateTrack = async (track: TracksToPlaylistDTO) => {
-    // TODO call to api
-    setCurrentPlaylist((curr) =>
-      curr
-        ? {
-            ...curr,
-            tracks: curr.tracks.map((ltrack) =>
-              ltrack.name === track.name
-                ? {
-                    ...ltrack,
-                    isActive: true,
-                  }
-                : ltrack
-            ),
-          }
-        : curr
-    );
-
-    const trackUri = (
-      await SpotifyApiService.getTrack(formatSearchString(track))
-    ).tracks.items[0].uri;
-    console.log(trackUri);
-    const playlists = await SpotifyApiService.getPlaylists();
-    const playlist = playlists?.items.find(
-      (playlist) => playlist.name === currentPlaylist?.name
-    );
-
-    if (playlist) {
-      await SpotifyApiService.addToTrackToPlaylis(playlist.id, [trackUri]);
-    }
-  };
-
-  const removeTrack = (track: TracksToPlaylistDTO) => {
-    setCurrentPlaylist((curr) =>
-      curr
-        ? {
-            ...curr,
-            tracks: curr.tracks.filter((ltrack) => ltrack.name !== track.name),
-          }
-        : curr
-    );
-  };
-
   const addTrackToPlaylist = async (track: TracksToPlaylistDTO) => {
     setCurrentPlaylist((curr) =>
       curr ? { ...curr, tracks: [...curr.tracks, track] } : curr
@@ -138,6 +95,7 @@ const AddToPlaylist = () => {
                     artist: album.artist_name,
                     imgSrc: album.image.url,
                     isActive: false,
+                    votes: 0,
                   })
                 }
               >

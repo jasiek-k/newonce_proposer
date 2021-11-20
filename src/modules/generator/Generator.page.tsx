@@ -51,8 +51,10 @@ const Generator: React.FC = () => {
     const playlistToCreate: {
       name: string;
       tracks: TracksToPlaylistDTO[];
+      reactions: string[];
     } = {
       name: data.name,
+      reactions: [],
       tracks: shuffle(
         albumsData.flatMap((album) =>
           sampleSize(album.tracklist, 2).map((track) => ({
@@ -62,6 +64,7 @@ const Generator: React.FC = () => {
             name: track.title,
             duration: track.duration,
             isActive: true,
+            votes: 999999, // XD
           }))
         )
       ),
