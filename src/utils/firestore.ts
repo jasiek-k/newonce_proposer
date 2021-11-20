@@ -26,12 +26,7 @@ export function createPlaylist(
   password: string,
   tracks: Array<TracksToPlaylistDTO>
 ) {
-  addDoc(
-    collection(db, "users", userId, "playlists"),
-    { name, password }
-  ).then((playlistRef) => {
-    console.log(playlistRef);
-  })
+  
 }
 
 export function signOutProfile() {

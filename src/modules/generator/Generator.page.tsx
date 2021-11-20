@@ -17,6 +17,15 @@ import { PLAYLIST_ROUTE } from "../../config/config";
 import { userState } from "../login/Login.state";
 import db from "../../config/firebase";
 
+const loadingScreen = (caption: any) => (
+  <div style={{ height: "100vh" }} className="w-full flex flex-col">
+    <Header />
+    <div className="w-full flex-1 flex flex-row items-center justify-center">
+      <h1 className="text-26 font-black font-primary text-center">{caption}</h1>
+    </div>
+  </div>
+);
+
 const Generator: React.FC = () => {
   const { data, error, isError, isLoading } = useQuery(
     "albums",
@@ -29,15 +38,17 @@ const Generator: React.FC = () => {
   const user = useRecoilValue(userState);
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return loadingScreen("Loading... loading... loading...");
   }
 
   if (isError) {
-    return <div>Error! {(error as any)?.message}</div>;
+    return loadingScreen("Ups... Coś się popsuło i nie było mnie słychać...");
   }
 
   if (isGenerating) {
-    return <div>Generating ...</div>;
+    return loadingScreen(
+      `Wyłaniamy zwycięzce bitwy freestyle'owej... Daj nam chwilę...`
+    );
   }
 
   const generatePlaylist = async (data: {
@@ -82,12 +93,18 @@ const Generator: React.FC = () => {
       name: data.name,
       password: data.password,
     }).then((res) => {
-      console.log(res);
+      playlistToCreate.tracks.forEach((track) => {
+        addDoc(
+          collection(db, "users", user.uid, "playlists", res.id, "tracks"),
+          track
+        );
+      });
       setIsGenerating(false);
+      history.replace({
+        pathname: PLAYLIST_ROUTE,
+        search: `${user.uid}/${res.id}`,
+      });
     });
-
-    // TODO: add id to url
-    history.replace(PLAYLIST_ROUTE);
   };
 
   return (

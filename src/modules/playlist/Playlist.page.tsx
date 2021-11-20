@@ -14,12 +14,26 @@ import { playlistState } from "./Playlist.state";
 import useFloatingReactions from "./useFloatingReactions.hook";
 import TrackItem from "./TrackItem.component";
 import ListButton from "../commons/ListButton.component";
+import { doc, getDoc } from "@firebase/firestore";
+import { useHistory } from "react-router";
+import db from "../../config/firebase";
 
 export const formatSearchString = (track: TracksToPlaylistDTO) =>
   `${track.name}, ${track.album}, ${track.artist}`;
 
 const Playlist: React.FC = () => {
   // TODO: fetching from database
+  const history = useHistory();
+  const params = history.location.search.split("/");
+  const userId = params[0].substring(1);
+  const playlistId = params[1];
+
+  getDoc(doc(db, "users", userId, "playlists", playlistId)).then((res) => {
+    if (res.exists()) {
+      console.log(res.data())
+    }
+  });
+
   const [currentPlaylist, setCurrentPlaylist] = useRecoilState(playlistState);
   const user = useRecoilValue(userState);
   console.log(user);
@@ -253,7 +267,7 @@ const Playlist: React.FC = () => {
           <AddToPlaylist />
         </div>
       </Container>
-      {Player && <Player />}
+      {Player}
     </div>
   );
 };
