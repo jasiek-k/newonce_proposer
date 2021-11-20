@@ -1,3 +1,4 @@
+declare module 'floating.js';
 interface Avatar {
     url: string;
 }

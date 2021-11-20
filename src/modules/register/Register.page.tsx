@@ -9,17 +9,14 @@ import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 import { useHistory } from "react-router-dom";
 import { HOME_ROUTE } from "../../config/config";
 
+import { createProfile } from "../../utils/firestore";
+
 const Register: React.FC = () => {
-  const auth = getAuth();
   const { push } = useHistory();
 
   const submit = async (value: any) => {
     try {
-      const test = await createUserWithEmailAndPassword(
-        auth,
-        value.email,
-        value.password
-      );
+      const test = await createProfile(value.email, value.password);
       console.log(test);
       push(HOME_ROUTE);
     } catch (e) {

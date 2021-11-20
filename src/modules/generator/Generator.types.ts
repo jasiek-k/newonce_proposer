@@ -4,4 +4,6 @@ export interface TracksToPlaylistDTO {
   album: string;
   imgSrc: string;
   duration: string;
+  isActive: boolean;
+  votes: number;
 }
