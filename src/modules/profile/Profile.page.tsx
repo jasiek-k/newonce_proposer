@@ -13,7 +13,9 @@ const Profile: React.FC = () => {
 
   const user = useRecoilValue(userState);
 
-  console.log(user);
+  const handleCreatePlaylist = () => {
+    push(GENERATOR_ROUTE);
+  };
 
   useEffect(() => {
     if (!user) {
@@ -30,10 +32,7 @@ const Profile: React.FC = () => {
           <div className="flex flex-row pt-50">
             <div className="">{user.email}</div>
             <div>
-              <Button
-                onClick={() => push(GENERATOR_ROUTE)}
-                caption="utwórz nową"
-              />
+              <Button caption="utwórz nową" onClick={handleCreatePlaylist} />
             </div>
           </div>
         )}

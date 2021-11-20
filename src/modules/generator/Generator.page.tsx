@@ -1,7 +1,9 @@
 import { sampleSize, shuffle } from "lodash";
 import React, { useState } from "react";
 import { useQuery } from "react-query";
-import { useSetRecoilState } from "recoil";
+import { useSetRecoilState, useRecoilValue } from "recoil";
+import { collection } from "@firebase/firestore";
+import { addDoc } from "@firebase/firestore";
 import ApiService from "../../ApiService";
 import Banner from "../commons/Banner.component";
 import Container from "../commons/Container.component";
@@ -12,6 +14,8 @@ import GeneratorForm from "./GeneratorForm.component";
 import { playlistState } from "../playlist/Playlist.state";
 import { useHistory } from "react-router-dom";
 import { PLAYLIST_ROUTE } from "../../config/config";
+import { userState } from "../login/Login.state";
+import db from "../../config/firebase";
 
 const Generator: React.FC = () => {
   const { data, error, isError, isLoading } = useQuery(
@@ -21,6 +25,8 @@ const Generator: React.FC = () => {
   const history = useHistory();
   const [isGenerating, setIsGenerating] = useState(false);
   const setPlaylist = useSetRecoilState(playlistState);
+
+  const user = useRecoilValue(userState);
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -71,8 +77,15 @@ const Generator: React.FC = () => {
     };
     // TODO: save in db and generate some id and url
     setPlaylist(playlistToCreate);
-    console.log(playlistToCreate);
-    setIsGenerating(false);
+
+    addDoc(collection(db, "users", user.uid, "playlists"), {
+      name: data.name,
+      password: data.password,
+    }).then((res) => {
+      console.log(res);
+      setIsGenerating(false);
+    });
+
     // TODO: add id to url
     history.replace(PLAYLIST_ROUTE);
   };

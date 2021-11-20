@@ -5,19 +5,22 @@ import Container from "../commons/Container.component";
 import Input from "../commons/Input.component";
 import Button from "../commons/Button.component";
 import Header from "../commons/Header.component";
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 import { useHistory } from "react-router-dom";
+import { useSetRecoilState } from "recoil";
 import { HOME_ROUTE } from "../../config/config";
-
-import { createProfile } from "../../utils/firestore";
+import { userState } from "../login/Login.state";
+import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import { setDoc, doc } from "firebase/firestore";
+import db from "../../config/firebase";
 
 const Register: React.FC = () => {
   const { push } = useHistory();
+  const auth = getAuth();
+  const setUser = useSetRecoilState(userState);
 
   const submit = async (value: any) => {
     try {
-      const test = await createProfile(value.email, value.password);
-      console.log(test);
+      await createUserWithEmailAndPassword(auth, value.email, value.password);
       push(HOME_ROUTE);
     } catch (e) {
       console.log(e);

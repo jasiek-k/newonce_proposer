@@ -16,23 +16,22 @@ import { last } from "lodash";
 
 import db from "../config/firebase";
 
+import { TracksToPlaylistDTO } from "../modules/generator/Generator.types";
+
 const auth = getAuth();
 
-export function createProfile(email: string, password: string) {
-  createUserWithEmailAndPassword(auth, email, password)
-    .then((userCredential) => {
-      setDoc(doc(db, "users", userCredential.user.uid), {
-        email: email,
-      });
-    })
-    .catch((err) => console.log(err));
-}
-
-export function createPlaylist(userId: string, name: string, password: string) {
-  addDoc(collection(db, "users", userId, "playlists"), {
-    name,
-    password,
-  });
+export function createPlaylist(
+  userId: string,
+  name: string,
+  password: string,
+  tracks: Array<TracksToPlaylistDTO>
+) {
+  addDoc(
+    collection(db, "users", userId, "playlists"),
+    { name, password }
+  ).then((playlistRef) => {
+    console.log(playlistRef);
+  })
 }
 
 export function signOutProfile() {

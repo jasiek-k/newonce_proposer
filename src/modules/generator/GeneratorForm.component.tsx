@@ -85,7 +85,7 @@ const GeneratorForm = ({
           </div>
           <div role="group" aria-labelledby="checkbox-group">
             <div className="flex flex-row flex-wrap grid-quadruple-col">
-              {albums.map((album, index) => (
+              {albums.slice(0, 16).map((album, index) => (
                 <FormAlbumItem
                   key={index}
                   album={album}

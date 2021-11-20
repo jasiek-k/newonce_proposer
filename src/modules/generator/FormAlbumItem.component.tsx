@@ -44,7 +44,7 @@ const FormAlbumItem: React.FC<IProps> = ({
         />
         <div className="absolute top-0 w-full flex flex-row items-center justify-between left-0 p-16 font-secondary text-12 font-black text-white">
           <span>{album.name}</span>
-          <PlusIcon />
+          <PlusIcon stroke="#fff" />
         </div>
       </div>
     </label>
