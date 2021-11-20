@@ -1,5 +1,5 @@
 import { orderBy, partition } from "lodash";
-import React from "react";
+import React, { useEffect } from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
 import SpotifyApiService from "../../SpotifyIntegration/SpotifyApi.service";
 import useCreateSpotifyPlaylist from "../../SpotifyIntegration/useCreateSpotifyPlaylist.hook";
@@ -12,12 +12,33 @@ import { playlistState } from "./Playlist.state";
 import useFloatingReactions from "./useFloatingReactions.hook";
 import TrackItem from "./TrackItem.component";
 import ListButton from "../commons/ListButton.component";
+import { doc, getDoc } from "@firebase/firestore";
+import { useHistory } from "react-router";
+import db from "../../config/firebase";
 
 export const formatSearchString = (track: TracksToPlaylistDTO) =>
   `${track.name}, ${track.album}, ${track.artist}`;
 
 const Playlist: React.FC = () => {
   // TODO: fetching from database
+  const history = useHistory();
+  const params = history.location.search.split("/");
+  const userId = params[0].substring(1);
+  const playlistId = params[1];
+
+  getDoc(doc(db, "users", userId, "playlists", playlistId)).then((res) => {
+    if (res.exists()) {
+      console.log(res.data())
+      // setCurrentPlaylist(
+      //   res.data() as {
+      //     name: string;
+      //     tracks: TracksToPlaylistDTO[];
+      //     reactions: string[];
+      //   }
+      // );
+    }
+  });
+
   const [currentPlaylist, setCurrentPlaylist] = useRecoilState(playlistState);
 
   // TODO: validate password, or mayby if limited time let's not implement that feature?

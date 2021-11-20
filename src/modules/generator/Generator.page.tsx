@@ -82,12 +82,18 @@ const Generator: React.FC = () => {
       name: data.name,
       password: data.password,
     }).then((res) => {
-      console.log(res);
+      playlistToCreate.tracks.forEach((track) => {
+        addDoc(
+          collection(db, "users", user.uid, "playlists", res.id, "tracks"),
+          track
+        );
+      });
       setIsGenerating(false);
+      history.replace({
+        pathname: PLAYLIST_ROUTE,
+        search: `${user.uid}/${res.id}`,
+      });
     });
-
-    // TODO: add id to url
-    history.replace(PLAYLIST_ROUTE);
   };
 
   return (
