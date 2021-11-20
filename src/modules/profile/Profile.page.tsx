@@ -5,7 +5,7 @@ import Button from "../commons/Button.component";
 import Header from "../commons/Header.component";
 import { useRecoilValue } from "recoil";
 import { userState } from "../login/Login.state";
-import { HOME_ROUTE } from "../../config/config";
+import { HOME_ROUTE, GENERATOR_ROUTE } from "../../config/config";
 import { useHistory } from "react-router-dom";
 
 const Profile: React.FC = () => {
@@ -13,7 +13,9 @@ const Profile: React.FC = () => {
 
   const user = useRecoilValue(userState);
 
-  console.log(user);
+  const handleCreatePlaylist = () => {
+    push(GENERATOR_ROUTE);
+  };
 
   useEffect(() => {
     if (!user) {
@@ -30,7 +32,7 @@ const Profile: React.FC = () => {
           <div className="flex flex-row pt-50">
             <div className="">{user.email}</div>
             <div>
-              <Button caption="utwórz nową" />
+              <Button caption="utwórz nową" onClick={handleCreatePlaylist} />
             </div>
           </div>
         )}
