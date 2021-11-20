@@ -71,6 +71,7 @@ const Generator: React.FC = () => {
     };
     // TODO: save in db and generate some id and url
     setPlaylist(playlistToCreate);
+    console.log(playlistToCreate);
     setIsGenerating(false);
     // TODO: add id to url
     history.replace(PLAYLIST_ROUTE);
