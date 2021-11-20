@@ -1,3 +1,4 @@
+import { orderBy, partition } from "lodash";
 import React from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
 import SpotifyApiService from "../../SpotifyIntegration/SpotifyApi.service";
@@ -6,6 +7,7 @@ import Header from "../commons/Header.component";
 import { TracksToPlaylistDTO } from "../generator/Generator.types";
 import AddToPlaylist from "./AddToPlaylist.component";
 import { playlistState } from "./Playlist.state";
+import useFloatingReactions from "./useFloatingReactions.hook";
 
 export const formatSearchString = (track: TracksToPlaylistDTO) =>
   `${track.name}, ${track.album}, ${track.artist}`;
@@ -64,6 +66,37 @@ const Playlist: React.FC = () => {
     );
   };
 
+  const addReaction = (reaction: string) => {
+    setCurrentPlaylist((curr) =>
+      curr
+        ? {
+            ...curr,
+            reactions: [...curr.reactions, reaction],
+          }
+        : curr
+    );
+  };
+
+  const upvoteTrack = (track: TracksToPlaylistDTO) => {
+    setCurrentPlaylist((curr) =>
+      curr
+        ? {
+            ...curr,
+            tracks: curr.tracks.map((ltrack) =>
+              ltrack.name === track.name
+                ? {
+                    ...ltrack,
+                    votes: ltrack.votes + 1,
+                  }
+                : ltrack
+            ),
+          }
+        : curr
+    );
+  };
+
+  useFloatingReactions(currentPlaylist?.reactions);
+
   if (!currentPlaylist) {
     return (
       <div>
@@ -73,6 +106,11 @@ const Playlist: React.FC = () => {
     );
   }
 
+  const [activeSongs, awaitngSongs] = partition(
+    currentPlaylist.tracks,
+    "isActive"
+  );
+
   return (
     <div>
       <Header />
@@ -80,7 +118,7 @@ const Playlist: React.FC = () => {
       <div>
         TWOJE UTWORY
         <ul>
-          {currentPlaylist.tracks.map((track) => (
+          {activeSongs.map((track) => (
             <li>
               <div className={track.isActive ? "bg-green-400" : "bg-gray-400"}>
                 {!track.isActive && (
@@ -104,6 +142,49 @@ const Playlist: React.FC = () => {
             </li>
           ))}
         </ul>
+        <ul>
+          Oczekujące
+          {orderBy(awaitngSongs, "votes", "desc").map((track) => (
+            <li>
+              <div>
+                {
+                  //ADD if user playlist host
+                }
+                <>
+                  <button onClick={() => activateTrack(track)}>
+                    Add to playlist
+                  </button>
+                  <button onClick={() => removeTrack(track)}>Remove</button>
+                </>
+
+                {
+                  //ADD if user not playlist host
+                }
+                <>
+                  <button onClick={() => upvoteTrack(track)}>+1</button>
+                </>
+
+                <img
+                  className="object-contain h-48"
+                  src={track.imgSrc}
+                  alt="trackImage"
+                />
+                <span>
+                  {track.name} - {track.artist} - {track.duration} -{" "}
+                  {track.votes}
+                </span>
+              </div>
+            </li>
+          ))}
+        </ul>
+      </div>
+      <div>
+        <>
+          Rections
+          <button onClick={() => addReaction("fire")}>🔥</button>
+          <button onClick={() => addReaction("party")}>🥳</button>
+          <button onClick={() => addReaction("thumbdown")}>👎</button>
+        </>
       </div>
       <div>
         <AddToPlaylist />

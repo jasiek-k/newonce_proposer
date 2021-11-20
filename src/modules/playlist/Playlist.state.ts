@@ -3,7 +3,8 @@ import { TracksToPlaylistDTO } from "../generator/Generator.types";
 
 export const playlistState = atom<{
   name: string;
-  tracks: TracksToPlaylistDTO[],
+  tracks: TracksToPlaylistDTO[];
+  reactions: string[];
 } | null>({
   key: 'playlistState',
   default: null,
