@@ -1,8 +1,7 @@
 import { QueryClient, QueryClientProvider } from "react-query";
-import { RecoilRoot } from "recoil";
-import { initializeApp } from "firebase/app";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import firebaseConfig from "./config/firebase";
+import { RecoilRoot } from "recoil";
+
 import {
   GENERATOR_ROUTE,
   HOME_ROUTE,
@@ -16,13 +15,16 @@ import Generator from "./modules/generator/Generator.page";
 import Login from "./modules/login/Login.page";
 import Register from "./modules/register/Register.page";
 
+import FirebaseExample from "./FirebaseExample/FirebaseExample";
+
 const App = () => {
   const queryClient = new QueryClient();
-  const app = initializeApp(firebaseConfig);
 
   return (
     <QueryClientProvider client={queryClient}>
       <RecoilRoot>
+        {/* <Example />*/}
+        <FirebaseExample />
         <Router>
           <Switch>
             <Route path={HOME_ROUTE} exact={true}>
