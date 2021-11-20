@@ -56,7 +56,7 @@ const Profile: React.FC = () => {
               <h2 className="font-primary text-18 text-gray font-black py-30">
                 {user.email}
               </h2>
-              <div className="flex flex-row items-center justify-between">
+              <div className="flex flex-row items-center justify-between mb-30">
                 <h1 className="uppercase font-primary text-38 font-black">
                   Twoje playlisty
                 </h1>
@@ -66,16 +66,24 @@ const Profile: React.FC = () => {
                   onClick={handleCreatePlaylist}
                 />
               </div>
-              {playlist.length === 0 && (
+              {!playlist.length ? (
                 <h2 className="my-80 font-primary text-22 font-black">
                   Jeszcze niczego z nami nie słuchałeś :C
                   <br />
                   Utwórz swoją pierwszą playliste
                 </h2>
+              ) : (
+                <>
+                  {playlist.map((playlist, index) => (
+                    <a href={"/"} key={index} className="p-16 border-2">
+                      {console.log(playlist)}
+                      <h1 className="font-primary text-24 font-black">
+                        {playlist.name}
+                      </h1>
+                    </a>
+                  ))}
+                </>
               )}
-              {playlist.map((playlist) => (
-                <div>{playlist.name}</div>
-              ))}
             </div>
           </div>
         )}
