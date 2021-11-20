@@ -27,7 +27,7 @@ const FormAlbumItem: React.FC<IProps> = ({
     />
     <label
       htmlFor={`${album.id}_${album.slug}`}
-      className="flex flex-row w-full checkbox-label"
+      className="flex flex-row w-full checkbox-label cursor-pointer	"
     >
       <div
         style={{ paddingBottom: "100%" }}

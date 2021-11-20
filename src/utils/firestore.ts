@@ -10,7 +10,9 @@ import {
   addDoc,
   getDocs,
   query,
+  onSnapshot,
 } from "firebase/firestore";
+import { last } from "lodash";
 
 import db from "../config/firebase";
 
@@ -70,4 +72,17 @@ export async function getPlaylistTracks(userId: string, playlistId: string) {
 
   const tracksArray = await getDocs(tracksQuery);
   return tracksArray;
+}
+
+export function reactionsListener(userId: string, playlistId: string, updateReactions: (val: string) => void) {
+  //TODO: pass playlsit id
+  const listener = onSnapshot(doc(db, "users", userId, "playlists", 'yh8HjpFR7zsQs1yI92Yc'), (doc) => {
+    console.log(doc.data()?.reactions)
+    if(
+      doc.data()?.reactions
+    ) {
+      updateReactions?.(last(doc.data()?.reactions || ['dupa']) as string)
+    }
+  });
+  return listener;
 }

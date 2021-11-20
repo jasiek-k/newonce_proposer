@@ -2,8 +2,8 @@ import SpotifyWebApi from "spotify-web-api-js";
 
 class SpotifyApi {
   // TODO: change to get from envs
-  ACCESS_TOKEN = 'BQDyuRKOd_iXAYlz3IPGFik0EQoE5EEqCUSCZUxzt4RgaeYRVk5q67ThtroG0OOLK3qHk0oywlo6RxbS51ptn7zJJfv8werPX26atatISx8-jOVqh-w2tEzcTGaLY4ZF1-5XYWbtM2-XPRc-TknJv3oCfw26R6KcO66SXYM-UVSZg6V3QYGOqR2TfV4Id_h-0-4FyJgHdF8'
-  WEB_PLAYBACK_TOKEN = 'BQAFP-G_5qJ9jFd0m-NlX9ZkoIia6eh9Hy1ZeNkDA2ElveN2cnJKMdTlQokVCuEoiuMQckwLlHt-BrQebgCiRxD9fJ9bFHESUeRx1WNF_jVmlZ6F2pbx8JaBrztD8TlXAxcAQSrMBOYSjGDsKidwpEYu3ER8JYB1l0OsZVvOekAoRIs_LnoYSZsKOEU1'
+  ACCESS_TOKEN = 'BQDtnraxVypSidq6cEku2rEJ9X_pwejB4psm9TIiaYbIgv4gLdR4bELIQhfL_jmjpRwkHrcJCwnQOYLuMC6oQtmHiZ-6zuK0fdhfqyntbI6Fe3rHfMhU07lMZnrXcwsh1leFS7RHsDsJLw5GTGXtKBU9SwXrV1JI3UJS57LlC0Ilcs5ObbC0v-UXev2MsMGuZ3tQjlQquTY'
+  WEB_PLAYBACK_TOKEN = 'BQBBUNrCeS6mKRy7e95QqfvhmdjdutXFiFJb0tmb4DDfurLv2p7bMRlstw-OVj046jUsqgpDzmGXXU2LlQia_GEsKfbRCqeGvCvZcNyC8bUR1xuFk3UmTWYp_lgdJgZaEp4LQPF12b-cw-iVDqNLQrp1vY1PY7NFmL3sEzso-nkSIiaL7YlFoKBjbfPP'
   spotifyApi: SpotifyWebApi.SpotifyWebApiJs;
   userId: string | undefined;
 

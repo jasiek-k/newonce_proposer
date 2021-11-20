@@ -1,12 +1,16 @@
 import { orderBy, partition } from "lodash";
 import React, { useEffect } from "react";
+import { last, orderBy, partition } from "lodash";
+import React, { useCallback, useEffect } from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
 import SpotifyApiService from "../../SpotifyIntegration/SpotifyApi.service";
 import useCreateSpotifyPlaylist from "../../SpotifyIntegration/useCreateSpotifyPlaylist.hook";
+import { reactionsListener } from "../../utils/firestore";
 import Banner from "../commons/Banner.component";
 import Container from "../commons/Container.component";
 import Header from "../commons/Header.component";
 import { TracksToPlaylistDTO } from "../generator/Generator.types";
+import { userState } from "../login/Login.state";
 import AddToPlaylist from "./AddToPlaylist.component";
 import { playlistState } from "./Playlist.state";
 import useFloatingReactions from "./useFloatingReactions.hook";
@@ -29,17 +33,12 @@ const Playlist: React.FC = () => {
   getDoc(doc(db, "users", userId, "playlists", playlistId)).then((res) => {
     if (res.exists()) {
       console.log(res.data())
-      // setCurrentPlaylist(
-      //   res.data() as {
-      //     name: string;
-      //     tracks: TracksToPlaylistDTO[];
-      //     reactions: string[];
-      //   }
-      // );
     }
   });
 
   const [currentPlaylist, setCurrentPlaylist] = useRecoilState(playlistState);
+  const user = useRecoilValue(userState);
+  console.log(user);
 
   // TODO: validate password, or mayby if limited time let's not implement that feature?
 
@@ -47,6 +46,28 @@ const Playlist: React.FC = () => {
     currentPlaylist?.tracks.map((track) => formatSearchString(track)),
     currentPlaylist?.name
   );
+
+  const addReaction = useCallback(
+    (reaction: string) => {
+      setCurrentPlaylist((curr) =>
+        curr
+          ? {
+              ...curr,
+              reactions: [...curr.reactions, reaction],
+            }
+          : curr
+      );
+    },
+    [setCurrentPlaylist]
+  );
+
+  useEffect(() => {
+    let listener: any;
+    if (currentPlaylist?.name) {
+      listener = reactionsListener(user.uid, currentPlaylist.name, addReaction);
+    }
+    return listener;
+  }, [addReaction, currentPlaylist?.name, user.uid]);
 
   const activateTrack = async (track: TracksToPlaylistDTO) => {
     // TODO call to api
@@ -86,17 +107,6 @@ const Playlist: React.FC = () => {
         ? {
             ...curr,
             tracks: curr.tracks.filter((ltrack) => ltrack.name !== track.name),
-          }
-        : curr
-    );
-  };
-
-  const addReaction = (reaction: string) => {
-    setCurrentPlaylist((curr) =>
-      curr
-        ? {
-            ...curr,
-            reactions: [...curr.reactions, reaction],
           }
         : curr
     );
@@ -156,7 +166,7 @@ const Playlist: React.FC = () => {
             TWOJE UTWORY
           </h1>
           <ul>
-            {currentPlaylist.tracks.map((track, index) => (
+            {activeSongs.map((track, index) => (
               <TrackItem
                 track={track}
                 key={index}
@@ -170,16 +180,25 @@ const Playlist: React.FC = () => {
             <h1 className="my-30 text-24 font-primary uppercase font-black">
               Oczekujące
             </h1>
-
-            {orderBy(awaitngSongs, "votes", "desc").map((track, index) => (
-              <TrackItem
-                track={track}
-                key={index}
-                activateTrack={activateTrack}
-                removeTrack={removeTrack}
-                upvoteTrack={upvoteTrack}
-                className="mb-20"
-              />
+            {
+              !!awaitngSongs.length ? (
+                orderBy(awaitngSongs, "votes", "desc").map((track, index) => (
+                  <TrackItem
+                    track={track}
+                    key={index}
+                    activateTrack={activateTrack}
+                    removeTrack={removeTrack}
+                    upvoteTrack={upvoteTrack}
+                    className="mb-20"
+                  />
+                ))
+              ) : (
+                <span className="text-14 font-secondary text-gray">
+                  Obecnie nie masz żadnych oczekujących traczków.
+                  <br />
+                  Dodaj je korzystając z szukajki po prawej stronie.
+                </span>
+              )
 
               // <li>
               //   <div>
@@ -211,7 +230,7 @@ const Playlist: React.FC = () => {
               //     </span>
               //   </div>
               // </li>
-            ))}
+            }
           </ul>
         </div>
 
