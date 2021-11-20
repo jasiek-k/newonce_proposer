@@ -1,5 +1,4 @@
 import { Formik, Form } from "formik";
-import { Album } from "../../types/Album";
 import Button from "../commons/Button.component";
 import Input from "../commons/Input.component";
 import FormAlbumItem from "./FormAlbumItem.component";

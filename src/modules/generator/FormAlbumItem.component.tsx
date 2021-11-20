@@ -1,6 +1,5 @@
 import clsx from "clsx";
 import React from "react";
-import { Album } from "../../types/Album";
 import PlusIcon from "../commons/PlusIcon.component";
 
 interface IProps {
