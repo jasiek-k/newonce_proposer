@@ -149,16 +149,25 @@ const Playlist: React.FC = () => {
             <h1 className="my-30 text-24 font-primary uppercase font-black">
               Oczekujące
             </h1>
-
-            {orderBy(awaitngSongs, "votes", "desc").map((track, index) => (
-              <TrackItem
-                track={track}
-                key={index}
-                activateTrack={activateTrack}
-                removeTrack={removeTrack}
-                upvoteTrack={upvoteTrack}
-                className="mb-20"
-              />
+            {
+              !!awaitngSongs.length ? (
+                orderBy(awaitngSongs, "votes", "desc").map((track, index) => (
+                  <TrackItem
+                    track={track}
+                    key={index}
+                    activateTrack={activateTrack}
+                    removeTrack={removeTrack}
+                    upvoteTrack={upvoteTrack}
+                    className="mb-20"
+                  />
+                ))
+              ) : (
+                <span className="text-14 font-secondary text-gray">
+                  Obecnie nie masz żadnych oczekujących traczków.
+                  <br />
+                  Dodaj je korzystając z szukajki po prawej stronie.
+                </span>
+              )
 
               // <li>
               //   <div>
@@ -190,7 +199,7 @@ const Playlist: React.FC = () => {
               //     </span>
               //   </div>
               // </li>
-            ))}
+            }
           </ul>
         </div>
 

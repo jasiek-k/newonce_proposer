@@ -1,5 +1,5 @@
 import { Form, Formik } from "formik";
-import React from "react";
+import React, { useEffect } from "react";
 import Banner from "../commons/Banner.component";
 import Container from "../commons/Container.component";
 import Header from "../commons/Header.component";
@@ -8,13 +8,13 @@ import Input from "../commons/Input.component";
 import Button from "../commons/Button.component";
 import { PROFILE_ROUTE, REGISTER_ROUTE } from "../../config/config";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
-import { useSetRecoilState } from "recoil";
+import { useRecoilState } from "recoil";
 import { userState } from "./Login.state";
 
 const Login: React.FC = () => {
   const auth = getAuth();
   const { push } = useHistory();
-  const setUser = useSetRecoilState(userState);
+  const [user, setUser] = useRecoilState(userState);
 
   const submit = async (value: any) => {
     try {
@@ -30,6 +30,12 @@ const Login: React.FC = () => {
       console.log(e);
     }
   };
+
+  useEffect(() => {
+    if (user) {
+      push("/profile");
+    }
+  }, [push, user]);
 
   return (
     <div>
