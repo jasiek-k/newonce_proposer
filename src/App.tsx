@@ -15,16 +15,12 @@ import Generator from "./modules/generator/Generator.page";
 import Login from "./modules/login/Login.page";
 import Register from "./modules/register/Register.page";
 
-import FirebaseExample from "./FirebaseExample/FirebaseExample";
-
 const App = () => {
   const queryClient = new QueryClient();
 
   return (
     <QueryClientProvider client={queryClient}>
       <RecoilRoot>
-        {/* <Example />*/}
-        <FirebaseExample />
         <Router>
           <Switch>
             <Route path={HOME_ROUTE} exact={true}>

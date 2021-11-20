@@ -1,5 +1,4 @@
 import {
-  signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
   signOut,
   getAuth,
@@ -22,23 +21,16 @@ export function createProfile(email: string, password: string) {
     .then((userCredential) => {
       setDoc(doc(db, "users", userCredential.user.uid), {
         email: email,
-      })
-        .then(() => {
-          addDoc(
-            collection(db, "users", userCredential.user.uid, "playlists"),
-            {
-              name: "Sample Playlist",
-            }
-          );
-        })
-        .catch((err) => console.log(err));
+      });
     })
     .catch((err) => console.log(err));
 }
 
-export function loginProfile(email: string, password: string) {
-  signInWithEmailAndPassword(auth, email, password)
-    .catch((err) => console.log(err));
+export function createPlaylist(userId: string, name: string, password: string) {
+  addDoc(collection(db, "users", userId, "playlists"), {
+    name,
+    password,
+  });
 }
 
 export function signOutProfile() {
