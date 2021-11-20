@@ -17,7 +17,7 @@ import Home from "./modules/home/Home.page";
 import Profile from "./modules/profile/Profile.page";
 import Playlist from "./modules/playlist/Playlist.page";
 import Generator from "./modules/generator/Generator.page";
-import SpotifyExamplePlayer from "./SpotifyIntegration/SpotifyPlayer.component";
+import SpotifyExamplePlayer from "./SpotifyIntegration/useCreateSpotifyPlaylist.hook";
 
 const App = () => {
   const queryClient = new QueryClient();
@@ -44,9 +44,9 @@ const App = () => {
             <Route path={GENERATOR_ROUTE}>
               <Generator />
             </Route>
-            <Route path={"/spotify"}>
+            {/* <Route path={"/spotify"}>
               <SpotifyExamplePlayer />
-            </Route>
+            </Route> */}
           </Switch>
         </Router>
       </RecoilRoot>

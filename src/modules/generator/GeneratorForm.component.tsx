@@ -1,5 +1,4 @@
 import { Formik } from 'formik';
-import { Album } from '../../types/Album';
 
 const GeneratorForm = ({ albums, onSubmit }:{ albums: Album[], onSubmit: (data: {
   name: string;
@@ -17,9 +16,9 @@ const GeneratorForm = ({ albums, onSubmit }:{ albums: Album[], onSubmit: (data: 
         if(!values.password) {
           errors.password = 'Hasło wymagane'
         }
-        if(values.albumsIds.length !== 5) {
-          errors.albumsIds = 'Wybierz 5 albumów'
-        }
+        // if(values.albumsIds.length !== 5) {
+        //   errors.albumsIds = 'Wybierz 5 albumów'
+        // }
         return errors;
       }}
       onSubmit={async (values, { setSubmitting }) => {
@@ -63,7 +62,7 @@ const GeneratorForm = ({ albums, onSubmit }:{ albums: Album[], onSubmit: (data: 
                 <img className="object-contain h-48" src={album.image.url} alt={`Album ${album.name} cover`} />
                 {album.name}
               </label>
-              <input onChange={handleChange} type="checkbox" name={"albumsIds"} value={album.id} />
+              <input onChange={handleChange} type="checkbox" name={"albumsIds"} value={album.slug} />
             </div>
           ))}
           {errors.albumsIds && touched.albumsIds && errors.albumsIds}
