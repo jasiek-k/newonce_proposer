@@ -17,6 +17,8 @@ const Profile: React.FC = () => {
     push(GENERATOR_ROUTE);
   };
 
+  console.log(user);
+
   useEffect(() => {
     if (!user) {
       push(HOME_ROUTE);
@@ -29,10 +31,26 @@ const Profile: React.FC = () => {
       <Banner />
       <Container>
         {user && (
-          <div className="flex flex-row pt-50">
-            <div className="">{user.email}</div>
-            <div>
-              <Button caption="utwórz nową" onClick={handleCreatePlaylist} />
+          <div className="w-full">
+            <div style={{ width: "66.66%" }} className="flex flex-col mx-auto">
+              <h2 className="font-primary text-18 text-gray font-black py-30">
+                {user.email}
+              </h2>
+              <div className="flex flex-row items-center justify-between">
+                <h1 className="uppercase font-primary text-38 font-black">
+                  Twoje playlisty
+                </h1>
+                <Button
+                  style={{ width: "37.5%" }}
+                  caption="utwórz nową"
+                  onClick={handleCreatePlaylist}
+                />
+              </div>
+              <h2 className="my-80 font-primary text-22 font-black">
+                Jeszcze niczego z nami nie słuchałeś :C
+                <br />
+                Utwórz swoją pierwszą playliste
+              </h2>
             </div>
           </div>
         )}
