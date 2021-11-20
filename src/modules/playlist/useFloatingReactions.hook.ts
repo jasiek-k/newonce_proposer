@@ -19,6 +19,7 @@ const valueToEmoji = (val: 'fire' | 'party' | 'thumbdown') => {
 const useFloatingReactions = (reactions: string[] | undefined) => {
   useEffect(() => {
     if(reactions) {
+      console.log(reactions);
       const lastReaction = last(reactions) as 'fire' | 'party' | 'thumbdown';
       if(lastReaction) {
       const lastReactionEmoji = valueToEmoji(lastReaction);

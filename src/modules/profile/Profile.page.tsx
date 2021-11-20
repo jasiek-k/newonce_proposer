@@ -5,7 +5,7 @@ import Button from "../commons/Button.component";
 import Header from "../commons/Header.component";
 import { useRecoilValue } from "recoil";
 import { userState } from "../login/Login.state";
-import { HOME_ROUTE } from "../../config/config";
+import { GENERATOR_ROUTE, HOME_ROUTE } from "../../config/config";
 import { useHistory } from "react-router-dom";
 
 const Profile: React.FC = () => {
@@ -30,7 +30,10 @@ const Profile: React.FC = () => {
           <div className="flex flex-row pt-50">
             <div className="">{user.email}</div>
             <div>
-              <Button caption="utwórz nową" />
+              <Button
+                onClick={() => push(GENERATOR_ROUTE)}
+                caption="utwórz nową"
+              />
             </div>
           </div>
         )}
