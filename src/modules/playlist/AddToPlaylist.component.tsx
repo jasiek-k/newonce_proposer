@@ -94,9 +94,10 @@ const AddToPlaylist = () => {
             </button>
           </div>
           <div style={{ height: "600px" }} className="overflow-auto">
-            {albums.map((album) => (
+            {albums.map((album, index) => (
               <SearchResult
                 album={album}
+                key={index}
                 tracks={tracks}
                 getTracks={getTracks}
                 addTrackToPlaylist={addTrackToPlaylist}

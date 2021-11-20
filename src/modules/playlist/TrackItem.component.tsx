@@ -57,6 +57,11 @@ const TrackItem: React.FC<IProps> = ({
               style={{ zIndex: 9 }}
               className="flex flex-row items-center justify-center"
             >
+              <div className="flex flex-row items-center">
+                <span className="font-secondary mr-4 text-12">votes:</span>
+                <span className="font-secondary mr-12">{track.votes}</span>
+              </div>
+
               {upvoteTrack && (
                 <ListButton
                   type="button"
