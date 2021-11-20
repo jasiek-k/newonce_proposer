@@ -5,7 +5,11 @@ import Button from "../commons/Button.component";
 import Header from "../commons/Header.component";
 import { useRecoilValue } from "recoil";
 import { userState } from "../login/Login.state";
-import { GENERATOR_ROUTE, HOME_ROUTE } from "../../config/config";
+import {
+  GENERATOR_ROUTE,
+  HOME_ROUTE,
+  PLAYLIST_ROUTE,
+} from "../../config/config";
 import { useHistory } from "react-router-dom";
 import { getUserPlaylists } from "../../utils/firestore";
 
@@ -75,7 +79,12 @@ const Profile: React.FC = () => {
               ) : (
                 <>
                   {playlist.map((playlist, index) => (
-                    <a href={"/"} key={index} className="p-16 border-2">
+                    <a
+                      // to do - check
+                      href={`/${PLAYLIST_ROUTE}?id=${playlist.id}`}
+                      key={index}
+                      className="p-16 border-2 mb-20"
+                    >
                       {console.log(playlist)}
                       <h1 className="font-primary text-24 font-black">
                         {playlist.name}

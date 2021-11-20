@@ -25,6 +25,7 @@ module.exports = {
     spacing: {
       ...rem(4),
       ...rem(6),
+      ...rem(8),
       ...rem(10),
       ...rem(12),
       ...rem(16),
