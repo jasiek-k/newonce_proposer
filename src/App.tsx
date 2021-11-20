@@ -13,7 +13,6 @@ import {
 import Profile from "./modules/profile/Profile.page";
 import Playlist from "./modules/playlist/Playlist.page";
 import Generator from "./modules/generator/Generator.page";
-import SpotifyExamplePlayer from "./SpotifyIntegration/SpotifyPlayer.component";
 import Login from "./modules/login/Login.page";
 import Register from "./modules/register/Register.page";
 
@@ -40,9 +39,6 @@ const App = () => {
             </Route>
             <Route path={GENERATOR_ROUTE}>
               <Generator />
-            </Route>
-            <Route path={"/spotify"}>
-              <SpotifyExamplePlayer />
             </Route>
           </Switch>
         </Router>
