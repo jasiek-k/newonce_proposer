@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Container from "../commons/Container.component";
 import Banner from "../commons/Banner.component";
 import Button from "../commons/Button.component";
@@ -7,11 +7,14 @@ import { useRecoilValue } from "recoil";
 import { userState } from "../login/Login.state";
 import { GENERATOR_ROUTE, HOME_ROUTE } from "../../config/config";
 import { useHistory } from "react-router-dom";
+import { getUserPlaylists } from "../../utils/firestore";
 
 const Profile: React.FC = () => {
   const { push } = useHistory();
 
   const user = useRecoilValue(userState);
+  // TODO: add id
+  const [playlist, setUserLocalPlaylists] = useState<{ name: string }[]>([]);
 
   const handleCreatePlaylist = () => {
     push(GENERATOR_ROUTE);
@@ -24,6 +27,16 @@ const Profile: React.FC = () => {
       push(HOME_ROUTE);
     }
   }, [push, user]);
+
+  useEffect(() => {
+    const init = async () => {
+      const data = await getUserPlaylists(user.uid);
+      setUserLocalPlaylists(
+        data.docs.map((doc) => doc.data()) as { name: string }[]
+      );
+    };
+    init();
+  }, [user.uid]);
 
   return (
     <div>
@@ -46,11 +59,16 @@ const Profile: React.FC = () => {
                   onClick={handleCreatePlaylist}
                 />
               </div>
-              <h2 className="my-80 font-primary text-22 font-black">
-                Jeszcze niczego z nami nie słuchałeś :C
-                <br />
-                Utwórz swoją pierwszą playliste
-              </h2>
+              {playlist.length === 0 && (
+                <h2 className="my-80 font-primary text-22 font-black">
+                  Jeszcze niczego z nami nie słuchałeś :C
+                  <br />
+                  Utwórz swoją pierwszą playliste
+                </h2>
+              )}
+              {playlist.map((playlist) => (
+                <div>{playlist.name}</div>
+              ))}
             </div>
           </div>
         )}
