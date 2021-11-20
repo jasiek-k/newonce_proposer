@@ -253,7 +253,7 @@ const Playlist: React.FC = () => {
           <AddToPlaylist />
         </div>
       </Container>
-      {Player && <Player />}
+      {Player}
     </div>
   );
 };
