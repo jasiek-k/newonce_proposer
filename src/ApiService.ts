@@ -1,13 +1,13 @@
 import axios, { AxiosInstance } from "axios";
 
-const API_BASE = "localhost:4000";
+const API_BASE = "https://newonce-api.herokuapp.com/";
 
 class ApiService {
   service: AxiosInstance;
 
   constructor() {
     let service = axios.create({
-      // baseURL: API_BASE,
+      baseURL: API_BASE,
       headers: {
         Accept: "application/json text/plain",
         "Content-Type": "application/json;charset=UTF=8",
@@ -17,8 +17,6 @@ class ApiService {
   }
 
   get<T>(url: string) {
-    console.log(API_BASE);
-
     return this.service.get<T>(url);
   }
 
