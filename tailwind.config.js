@@ -42,11 +42,7 @@ module.exports = {
       ...rem(12),
       ...rem(14),
       ...rem(16),
-<<<<<<< HEAD
-      ...rem(18),
-=======
       ...rem(24),
->>>>>>> origin/develop
       ...rem(32),
       ...rem(38),
     },
