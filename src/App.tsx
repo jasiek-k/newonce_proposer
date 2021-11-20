@@ -7,11 +7,14 @@ import {
   HOME_ROUTE,
   PLAYLIST_ROUTE,
   PROFILE_ROUTE,
+  REGISTER_ROUTE,
 } from "./config/config";
-import Home from "./modules/home/Home.page";
 import Profile from "./modules/profile/Profile.page";
 import Playlist from "./modules/playlist/Playlist.page";
 import Generator from "./modules/generator/Generator.page";
+import Login from "./modules/login/Login.page";
+import Register from "./modules/register/Register.page";
+
 import FirebaseExample from "./FirebaseExample/FirebaseExample";
 
 const App = () => {
@@ -25,10 +28,13 @@ const App = () => {
         <Router>
           <Switch>
             <Route path={HOME_ROUTE} exact={true}>
-              <Home />
+              <Login />
             </Route>
             <Route path={PROFILE_ROUTE}>
               <Profile />
+            </Route>
+            <Route path={REGISTER_ROUTE}>
+              <Register />
             </Route>
             <Route path={PLAYLIST_ROUTE}>
               <Playlist />
