@@ -7,6 +7,9 @@ interface IProps {
   placeholder: string;
   name: string;
   type?: string;
+  onChange?: any;
+  onBlur?: any;
+  value?: any;
 }
 
 const Input: React.FC<IProps> = ({

@@ -1,3 +1,4 @@
+import clsx from "clsx";
 import React, { ButtonHTMLAttributes, DetailedHTMLProps } from "react";
 
 interface IProps
@@ -14,12 +15,18 @@ const Button: React.FC<IProps> = ({
   onClick,
   className,
   children,
+  disabled,
   type = "button",
   caption,
   ...props
 }) => (
   <button className={className} onClick={onClick} type={type} {...props}>
-    <div className="py-16 bg-blue border-2 relative flex flex-row items-center w-full justify-center">
+    <div
+      className={clsx(
+        "py-16 bg-blue border-2 relative flex flex-row items-center w-full justify-center",
+        { "opacity-30": disabled }
+      )}
+    >
       <span className="uppercase text-12 text-white font-secondary font-black">
         {caption}
       </span>
