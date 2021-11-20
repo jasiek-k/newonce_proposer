@@ -66,3 +66,8 @@ interface AlbumDetails {
     meta_description: string;
     head_meta_data: HeadMetaData;
 }
+
+interface ArtistAlbums {
+    popular: Album[],
+    items: Album[]
+}

@@ -22,7 +22,7 @@ const FormAlbumItem: React.FC<IProps> = ({
       type="checkbox"
       name="albumsIds"
       className="hidden custom-checkbox"
-      value={album.id}
+      value={album.slug}
       id={`${album.id}_${album.slug}`}
     />
     <label
