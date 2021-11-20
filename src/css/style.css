@@ -7,3 +7,29 @@
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
 @import "./../assets/fonts/stylesheet.css";
+
+.grid-quadruple-col > div:nth-child(4n + 0) > * {
+  margin-left: 18px;
+}
+
+.grid-quadruple-col > div:nth-child(4n + 1) > * {
+  margin-right: 18px;
+}
+
+.grid-quadruple-col > div:nth-child(4n + 2) > * {
+  margin-right: 12px;
+  margin-left: 6px;
+}
+
+.grid-quadruple-col > div:nth-child(4n + 3) > * {
+  margin-right: 6px;
+  margin-left: 12px;
+}
+
+.custom-checkbox:checked ~ .checkbox-label > .wrapper > .mask {
+  opacity: 80% !important;
+}
+
+.custom-checkbox:hover {
+  cursor: pointer;
+}
