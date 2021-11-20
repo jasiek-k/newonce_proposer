@@ -1,4 +1,4 @@
-import { last, orderBy, partition } from "lodash";
+import { last, orderBy, partition, values } from "lodash";
 import React, { useCallback, useEffect } from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
 import SpotifyApiService from "../../SpotifyIntegration/SpotifyApi.service";
@@ -14,7 +14,7 @@ import { playlistState } from "./Playlist.state";
 import useFloatingReactions from "./useFloatingReactions.hook";
 import TrackItem from "./TrackItem.component";
 import ListButton from "../commons/ListButton.component";
-import { doc, getDoc } from "@firebase/firestore";
+import { doc, collection, getDoc, query, getDocs } from "@firebase/firestore";
 import { useHistory } from "react-router";
 import db from "../../config/firebase";
 
@@ -28,11 +28,38 @@ const Playlist: React.FC = () => {
   const userId = params[0].substring(1);
   const playlistId = params[1];
 
-  getDoc(doc(db, "users", userId, "playlists", playlistId)).then((res) => {
-    if (res.exists()) {
-      console.log(res.data())
-    }
-  });
+  const firebasePlaylistData = {
+    name: "",
+    password: "",
+    tracks: [],
+  };
+
+  useEffect(() => {
+    getDoc(doc(db, "users", userId, "playlists", playlistId)).then((res) => {
+      const playlistName = res.data();
+
+      firebasePlaylistData.name = playlistName?.name;
+      firebasePlaylistData.password = playlistName?.password;
+    });
+
+    const tracksQuery = query(
+      collection(db, "users", userId, "playlists", playlistId, "tracks")
+    );
+
+    getDocs(tracksQuery).then((res) => {
+      const resa = res.docs.map((doc) => doc.data());
+      console.log(resa);
+      setCurrentPlaylist(
+        (curr) =>
+          ({
+            ...curr,
+            name: firebasePlaylistData.name,
+            password: firebasePlaylistData.password,
+            tracks: resa.map((val) => ({ ...val, reactions: [] })),
+          } as any)
+      );
+    });
+  }, []);
 
   const [currentPlaylist, setCurrentPlaylist] = useRecoilState(playlistState);
   const user = useRecoilValue(userState);
@@ -51,7 +78,7 @@ const Playlist: React.FC = () => {
         curr
           ? {
               ...curr,
-              reactions: [...curr.reactions, reaction],
+              reactions: [...(curr.reactions || []), reaction],
             }
           : curr
       );
@@ -129,6 +156,7 @@ const Playlist: React.FC = () => {
   };
 
   useFloatingReactions(currentPlaylist?.reactions);
+  console.log({ currentPlaylist });
 
   if (!currentPlaylist) {
     return (
