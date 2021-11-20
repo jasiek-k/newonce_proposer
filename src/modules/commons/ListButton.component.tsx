@@ -22,7 +22,7 @@ const ListButton: React.FC<IProps> = ({
     <div
       className={clsx(
         buttonClass,
-        "p-10 border-2 bg-white relative flex flex-row items-center w-full justify-center",
+        "border-2 bg-white relative flex flex-row items-center w-full justify-center",
         { "opacity-30": disabled }
       )}
     >

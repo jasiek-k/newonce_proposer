@@ -11,6 +11,7 @@ import AddToPlaylist from "./AddToPlaylist.component";
 import { playlistState } from "./Playlist.state";
 import useFloatingReactions from "./useFloatingReactions.hook";
 import TrackItem from "./TrackItem.component";
+import ListButton from "../commons/ListButton.component";
 
 export const formatSearchString = (track: TracksToPlaylistDTO) =>
   `${track.name}, ${track.album}, ${track.artist}`;
@@ -144,8 +145,87 @@ const Playlist: React.FC = () => {
               />
             ))}
           </ul>
+          <ul>
+            <h1 className="my-30 text-24 font-primary uppercase font-black">
+              Oczekujące
+            </h1>
+
+            {orderBy(awaitngSongs, "votes", "desc").map((track, index) => (
+              <TrackItem
+                track={track}
+                key={index}
+                activateTrack={activateTrack}
+                removeTrack={removeTrack}
+                upvoteTrack={upvoteTrack}
+                className="mb-20"
+              />
+
+              // <li>
+              //   <div>
+              //     {
+              //       //ADD if user playlist host
+              //     }
+              //     <>
+              //       <button onClick={() => activateTrack(track)}>
+              //         Add to playlist
+              //       </button>
+              //       <button onClick={() => removeTrack(track)}>Remove</button>
+              //     </>
+
+              //     {
+              //       //ADD if user not playlist host
+              //     }
+              //     <>
+              //       <button onClick={() => upvoteTrack(track)}>+1</button>
+              //     </>
+
+              //     <img
+              //       className="object-contain h-48"
+              //       src={track.imgSrc}
+              //       alt="trackImage"
+              //     />
+              //     <span>
+              //       {track.name} - {track.artist} - {track.duration} -{" "}
+              //       {track.votes}
+              //     </span>
+              //   </div>
+              // </li>
+            ))}
+          </ul>
         </div>
+
         <div style={{ width: "33.33%" }} className="flex flex-col pl-12">
+          <div className="p-12 border-2 mt-30">
+            <h1 className="mb-12 text-24 font-primary uppercase font-black">
+              HOW YOU FEEL?
+            </h1>
+            <div className="flex flex-row"></div>
+            <ListButton
+              type="button"
+              className="mr-12 "
+              buttonClass="p-10"
+              onClick={() => addReaction("fire")}
+            >
+              <div className="w-24 h-24">🔥</div>
+            </ListButton>
+
+            <ListButton
+              type="button"
+              className="mr-12 "
+              buttonClass="p-10"
+              onClick={() => addReaction("party")}
+            >
+              <div className="w-24 h-24"> 🥳</div>
+            </ListButton>
+            <ListButton
+              type="button"
+              className="mr-12 "
+              buttonClass="p-10"
+              onClick={() => addReaction("thumbdown")}
+            >
+              <div className="w-24 h-24"> 👎</div>
+            </ListButton>
+          </div>
           <AddToPlaylist />
         </div>
       </Container>

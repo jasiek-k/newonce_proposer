@@ -76,7 +76,7 @@ const AddToPlaylist = () => {
         <input
           id="search-artist"
           placeholder="np. Kizo"
-          className="border-2 font-secondary text-gray text-14 pl-16 py-12 mb-20"
+          className="border-2 border-black font-secondary text-gray text-14 pl-16 py-12 mb-20"
           value={artist}
           onChange={(e) => setartist(e.target.value)}
         />

@@ -8,6 +8,7 @@ interface IProps {
   className?: string;
   activateTrack: any;
   removeTrack: any;
+  upvoteTrack?: any;
 }
 
 const TrackItem: React.FC<IProps> = ({
@@ -15,6 +16,7 @@ const TrackItem: React.FC<IProps> = ({
   className,
   activateTrack,
   removeTrack,
+  upvoteTrack,
 }) => (
   <li className={clsx(className, "w-full flex flex-row border-2")}>
     <div className="w-full flex flex-row">
@@ -37,7 +39,7 @@ const TrackItem: React.FC<IProps> = ({
         )}
       >
         <div className="px-16 w-full flex-row flex items-center justify-between font-secondary">
-          <div style={{ width: "80%" }} className="flex flex-row">
+          <div style={{ width: "75%" }} className="flex flex-row">
             <span style={{ width: "50%" }} className="font-bold">
               {track.name}
             </span>
@@ -45,23 +47,43 @@ const TrackItem: React.FC<IProps> = ({
           </div>
           {track.isActive ? (
             <div
-              style={{ width: "20%" }}
+              style={{ width: "25%" }}
               className="flex flex-row justify-end "
             >
               <span>{track.duration}</span>
             </div>
           ) : (
-            <div style={{ zIndex: 9 }}>
+            <div
+              style={{ zIndex: 9 }}
+              className="flex flex-row items-center justify-center"
+            >
+              {upvoteTrack && (
+                <ListButton
+                  type="button"
+                  className="mr-12 "
+                  buttonClass="p-6 flex flex-row justify-center items-center"
+                  onClick={() => upvoteTrack(track)}
+                >
+                  <span className="font-secondary flex flex-col justify-center font-bold w-18 h-18">
+                    +1
+                  </span>
+                </ListButton>
+              )}
+
+              {
+                //ADD if user playlist host
+              }
               <ListButton
                 type="button"
                 className="mr-12 "
+                buttonClass="p-10"
                 onClick={() => activateTrack(track)}
               >
                 <PlusIcon stroke="#000" />
               </ListButton>
               <ListButton
                 type="button"
-                buttonClass="bg-red"
+                buttonClass="bg-red p-10"
                 onClick={() => removeTrack(track)}
               >
                 <PlusIcon
@@ -81,33 +103,8 @@ export default TrackItem;
 
 {
   /* <div>{currentPlaylist.name}</div>
-<div>
-  TWOJE UTWORY
-  <ul>
-    {activeSongs.map((track) => (
-      <li>
-        <div className={track.isActive ? "bg-green-400" : "bg-gray-400"}>
-          {!track.isActive && (
-            <>
-              <button onClick={() => activateTrack(track)}>
-                Add to playlist
-              </button>
-              <button onClick={() => removeTrack(track)}>Remove</button>
-            </>
-          )}
-
-          <img
-            className="object-contain h-48"
-            src={track.imgSrc}
-            alt="trackImage"
-          />
-          <span>
-            {track.name} - {track.artist} - {track.duration}
-          </span>
-        </div>
-      </li>
-    ))}
-  </ul>
+ 
+  
   <ul>
     Oczekujące
     {orderBy(awaitngSongs, "votes", "desc").map((track) => (
