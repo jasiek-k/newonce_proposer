@@ -15,12 +15,7 @@ const Register: React.FC = () => {
 
   const submit = async (value: any) => {
     try {
-      const test = await createUserWithEmailAndPassword(
-        auth,
-        value.email,
-        value.password
-      );
-      console.log(test);
+      await createUserWithEmailAndPassword(auth, value.email, value.password);
       push(HOME_ROUTE);
     } catch (e) {
       console.log(e);

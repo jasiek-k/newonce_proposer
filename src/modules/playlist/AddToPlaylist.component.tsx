@@ -2,6 +2,8 @@ import { useState, FormEvent } from "react";
 import { useRecoilState } from "recoil";
 import ApiService from "../../ApiService";
 import SpotifyApiService from "../../SpotifyIntegration/SpotifyApi.service";
+import Button from "../commons/Button.component";
+import SearchResult from "../commons/SearchResults.component";
 import { TracksToPlaylistDTO } from "../generator/Generator.types";
 import { formatSearchString } from "./Playlist.page";
 import { playlistState } from "./Playlist.state";
@@ -61,49 +63,48 @@ const AddToPlaylist = () => {
     //   await SpotifyApiService.addToTrackToPlaylis(playlist.id, [trackUri]);
     // }
   };
+  const closeSearch = () => setAlbums([]);
 
   console.log(tracks);
+
   return (
     <div>
-      <form onSubmit={handleLogin}>
-        <label htmlFor="search-artist">Artysta:</label>
+      <h1 className="my-30 text-24 font-primary font-black uppercase">
+        Wyszukaj artyste:
+      </h1>
+      <form onSubmit={handleLogin} className="flex flex-col">
         <input
           id="search-artist"
-          required
+          placeholder="np. Kizo"
+          className="border-2 font-secondary text-gray text-14 pl-16 py-12 mb-20"
           value={artist}
           onChange={(e) => setartist(e.target.value)}
         />
-
-        <button type="submit">Wyszukaj artyste</button>
+        <Button type="submit" caption="szukaj" />
       </form>
-      {albums.map((album) => (
-        <div onClick={() => getTracks(album.slug)}>
-          <img
-            className="object-contain h-48"
-            src={album.image.url}
-            alt="trackImage"
-          />
-          <span>{album.name}</span>
-          {tracks[album.slug] &&
-            tracks[album.slug].tracklist.map((track) => (
-              <ul
-                onClick={() =>
-                  addTrackToPlaylist({
-                    name: track.title,
-                    duration: track.duration,
-                    album: album.name,
-                    artist: album.artist_name,
-                    imgSrc: album.image.url,
-                    isActive: false,
-                    votes: 0,
-                  })
-                }
-              >
-                <li>{track.title}</li>
-              </ul>
+      {!!albums.length && (
+        <div className="mt-30 p-12 border-2">
+          <div className="flex flex-row justify-end">
+            <button
+              type="button"
+              className="font-secondary font-bold text-12 mb-12"
+              onClick={closeSearch}
+            >
+              ZAMKNIJ
+            </button>
+          </div>
+          <div style={{ height: "600px" }} className="overflow-auto">
+            {albums.map((album) => (
+              <SearchResult
+                album={album}
+                tracks={tracks}
+                getTracks={getTracks}
+                addTrackToPlaylist={addTrackToPlaylist}
+              />
             ))}
+          </div>
         </div>
-      ))}
+      )}
     </div>
   );
 };

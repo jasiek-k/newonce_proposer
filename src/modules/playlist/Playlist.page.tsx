@@ -3,11 +3,14 @@ import React from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
 import SpotifyApiService from "../../SpotifyIntegration/SpotifyApi.service";
 import useCreateSpotifyPlaylist from "../../SpotifyIntegration/useCreateSpotifyPlaylist.hook";
+import Banner from "../commons/Banner.component";
+import Container from "../commons/Container.component";
 import Header from "../commons/Header.component";
 import { TracksToPlaylistDTO } from "../generator/Generator.types";
 import AddToPlaylist from "./AddToPlaylist.component";
 import { playlistState } from "./Playlist.state";
 import useFloatingReactions from "./useFloatingReactions.hook";
+import TrackItem from "./TrackItem.component";
 
 export const formatSearchString = (track: TracksToPlaylistDTO) =>
   `${track.name}, ${track.album}, ${track.artist}`;
@@ -99,9 +102,15 @@ const Playlist: React.FC = () => {
 
   if (!currentPlaylist) {
     return (
-      <div>
+      <div style={{ height: "100vh" }} className="w-full flex flex-col">
         <Header />
-        loading
+        <div className="w-full flex-1 flex flex-row items-center justify-center">
+          <h1 className="text-26 font-black font-primary text-center">
+            Generujemy Twoją playlistę.
+            <br />
+            Może to chwilę potrwać…
+          </h1>
+        </div>
       </div>
     );
   }
@@ -114,81 +123,32 @@ const Playlist: React.FC = () => {
   return (
     <div>
       <Header />
-      <div>{currentPlaylist.name}</div>
-      <div>
-        TWOJE UTWORY
-        <ul>
-          {activeSongs.map((track) => (
-            <li>
-              <div className={track.isActive ? "bg-green-400" : "bg-gray-400"}>
-                {!track.isActive && (
-                  <>
-                    <button onClick={() => activateTrack(track)}>
-                      Add to playlist
-                    </button>
-                    <button onClick={() => removeTrack(track)}>Remove</button>
-                  </>
-                )}
-
-                <img
-                  className="object-contain h-48"
-                  src={track.imgSrc}
-                  alt="trackImage"
-                />
-                <span>
-                  {track.name} - {track.artist} - {track.duration}
-                </span>
-              </div>
-            </li>
-          ))}
-        </ul>
-        <ul>
-          Oczekujące
-          {orderBy(awaitngSongs, "votes", "desc").map((track) => (
-            <li>
-              <div>
-                {
-                  //ADD if user playlist host
-                }
-                <>
-                  <button onClick={() => activateTrack(track)}>
-                    Add to playlist
-                  </button>
-                  <button onClick={() => removeTrack(track)}>Remove</button>
-                </>
-
-                {
-                  //ADD if user not playlist host
-                }
-                <>
-                  <button onClick={() => upvoteTrack(track)}>+1</button>
-                </>
-
-                <img
-                  className="object-contain h-48"
-                  src={track.imgSrc}
-                  alt="trackImage"
-                />
-                <span>
-                  {track.name} - {track.artist} - {track.duration} -{" "}
-                  {track.votes}
-                </span>
-              </div>
-            </li>
-          ))}
-        </ul>
-      </div>
-      <div>
-        <>
-          Rections
-          <button onClick={() => addReaction("fire")}>🔥</button>
-          <button onClick={() => addReaction("party")}>🥳</button>
-          <button onClick={() => addReaction("thumbdown")}>👎</button>
-        </>
-      </div>
-      <div>
-        <AddToPlaylist />
-      </div>
+      <Banner>
+        <h1 className="text-38 font-primary font-black uppercase">
+          {currentPlaylist.name}
+        </h1>
+      </Banner>
+      <Container className="flex flex-row mb-80">
+        <div style={{ width: "66.66%" }} className="flex flex-col pr-12">
+          <h1 className="my-30 text-24 font-primary font-black">
+            TWOJE UTWORY
+          </h1>
+          <ul>
+            {currentPlaylist.tracks.map((track, index) => (
+              <TrackItem
+                track={track}
+                key={index}
+                activateTrack={activateTrack}
+                removeTrack={removeTrack}
+                className="mb-20"
+              />
+            ))}
+          </ul>
+        </div>
+        <div style={{ width: "33.33%" }} className="flex flex-col pl-12">
+          <AddToPlaylist />
+        </div>
+      </Container>
       {Player && <Player />}
     </div>
   );

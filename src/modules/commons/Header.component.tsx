@@ -12,7 +12,9 @@ const Header: React.FC = () => {
   return (
     <header className="bg-black flex flex-row w-full">
       <Container className="py-36 flex flex-row justify-between items-center">
-        <Logo />
+        <a href="/">
+          <Logo />
+        </a>
         {!!user && (
           <button type="button" onClick={handleLogout}>
             <span className="text-white font-secondary text-14 font-bold">
