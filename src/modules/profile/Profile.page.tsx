@@ -5,7 +5,7 @@ import Button from "../commons/Button.component";
 import Header from "../commons/Header.component";
 import { useRecoilValue } from "recoil";
 import { userState } from "../login/Login.state";
-import { HOME_ROUTE, GENERATOR_ROUTE } from "../../config/config";
+import { GENERATOR_ROUTE, HOME_ROUTE } from "../../config/config";
 import { useHistory } from "react-router-dom";
 
 const Profile: React.FC = () => {
