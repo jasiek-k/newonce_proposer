@@ -55,7 +55,7 @@ const Profile: React.FC = () => {
       <Banner />
       <Container>
         {user && (
-          <div className="w-full">
+          <div className="w-full mb-30">
             <div style={{ width: "66.66%" }} className="flex flex-col mx-auto">
               <h2 className="font-primary text-18 text-gray font-black py-30">
                 {user.email}
@@ -81,7 +81,7 @@ const Profile: React.FC = () => {
                   {playlist.map((playlist, index) => (
                     <a
                       // to do - check
-                      href={`/${PLAYLIST_ROUTE}?id=${playlist.id}`}
+                      href={`${PLAYLIST_ROUTE}?${playlist.id}`}
                       key={index}
                       className="p-16 border-2 mb-20"
                     >
