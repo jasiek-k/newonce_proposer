@@ -14,7 +14,9 @@ const Profile: React.FC = () => {
 
   const user = useRecoilValue(userState);
   // TODO: add id
-  const [playlist, setUserLocalPlaylists] = useState<{ name: string }[]>([]);
+  const [playlist, setUserLocalPlaylists] = useState<
+    { name: string; id: string }[]
+  >([]);
 
   const handleCreatePlaylist = () => {
     push(GENERATOR_ROUTE);
@@ -30,13 +32,18 @@ const Profile: React.FC = () => {
 
   useEffect(() => {
     const init = async () => {
-      const data = await getUserPlaylists(user.uid);
-      setUserLocalPlaylists(
-        data.docs.map((doc) => doc.data()) as { name: string }[]
-      );
+      if (user) {
+        const data = await getUserPlaylists(user?.uid);
+        setUserLocalPlaylists(
+          data.docs.map((doc) => ({ ...doc.data(), id: doc.id })) as {
+            name: string;
+            id: string;
+          }[]
+        );
+      }
     };
     init();
-  }, [user.uid]);
+  }, [user, user?.uid]);
 
   return (
     <div>
