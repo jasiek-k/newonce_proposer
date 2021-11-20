@@ -7,7 +7,7 @@ import Logo from "./Logo.component";
 const Header: React.FC = () => {
   const [user, setUser] = useRecoilState(userState);
 
-  const handleLogout = useCallback(() => setUser(null), []);
+  const handleLogout = useCallback(() => setUser(null), [setUser]);
 
   return (
     <header className="bg-black flex flex-row w-full">
