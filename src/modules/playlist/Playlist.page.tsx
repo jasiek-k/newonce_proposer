@@ -3,9 +3,10 @@ import { useRecoilValue } from "recoil";
 import useCreateSpotifyPlaylist from "../../SpotifyIntegration/useCreateSpotifyPlaylist.hook";
 import Header from "../commons/Header.component";
 import { TracksToPlaylistDTO } from "../generator/Generator.types";
+import AddToPlaylist from "./AddToPlaylist.component";
 import { playlistState } from "./Playlist.state";
 
-const formatSearchString = (track: TracksToPlaylistDTO) => `${track.name}, ${track.album}, ${track.artist}`;
+export const formatSearchString = (track: TracksToPlaylistDTO) => `${track.name}, ${track.album}, ${track.artist}`;
 
 const Playlist: React.FC = () => {
   // TODO: fetching from database
@@ -43,6 +44,9 @@ const Playlist: React.FC = () => {
           </li>
         ))}
       </ul>
+      </div>
+      <div>
+        <AddToPlaylist />
       </div>
       {Player && <Player />}
     </div>

@@ -11,7 +11,6 @@ const useCreateSpotifyPlaylist = (tracksFind?: string[], playlistName?: string) 
         const playlists = await SpotifyApiService.getPlaylists();
         await SpotifyApiService.getUserId();
         const result = await Promise.all(tracksFind.map((trackFind) => SpotifyApiService.getTrack(trackFind)))
-        console.log(result);
         let playlist = playlists?.items.find((playlist) => playlist.name === playlistName)
         if(!playlist) {
           const playlistData = await SpotifyApiService.createPlaylist(playlistName);
