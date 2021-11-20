@@ -1,4 +1,4 @@
-import { sampleSize } from "lodash";
+import { sampleSize, shuffle } from "lodash";
 import React, { useState } from "react";
 import { useQuery } from "react-query";
 import { useSetRecoilState } from "recoil";
@@ -53,14 +53,17 @@ const Generator: React.FC = () => {
       tracks: TracksToPlaylistDTO[];
     } = {
       name: data.name,
-      tracks: albumsData.flatMap((album) =>
-        sampleSize(album.tracklist, 2).map((track) => ({
-          artist: album.artist_name,
-          album: album.name,
-          imgSrc: album.image.url,
-          name: track.title,
-          duration: track.duration,
-        }))
+      tracks: shuffle(
+        albumsData.flatMap((album) =>
+          sampleSize(album.tracklist, 2).map((track) => ({
+            artist: album.artist_name,
+            album: album.name,
+            imgSrc: album.image.url,
+            name: track.title,
+            duration: track.duration,
+            isActive: true,
+          }))
+        )
       ),
     };
     // TODO: save in db and generate some id and url
