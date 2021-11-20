@@ -26,7 +26,7 @@ const Profile: React.FC = () => {
     push(GENERATOR_ROUTE);
   };
 
-  console.log(user);
+  console.log(user, "user");
 
   useEffect(() => {
     if (!user) {
@@ -81,7 +81,7 @@ const Profile: React.FC = () => {
                   {playlist.map((playlist, index) => (
                     <a
                       // to do - check
-                      href={`${PLAYLIST_ROUTE}?${playlist.id}`}
+                      href={`${PLAYLIST_ROUTE}?${user.uid}/${playlist.id}`}
                       key={index}
                       className="p-16 border-2 mb-20"
                     >

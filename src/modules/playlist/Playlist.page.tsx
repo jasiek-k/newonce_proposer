@@ -1,4 +1,4 @@
-import { last, orderBy, partition } from "lodash";
+import { last, orderBy, partition, values } from "lodash";
 import React, { useCallback, useEffect } from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
 import SpotifyApiService from "../../SpotifyIntegration/SpotifyApi.service";
@@ -46,17 +46,19 @@ const Playlist: React.FC = () => {
       collection(db, "users", userId, "playlists", playlistId, "tracks")
     );
 
-    getDocs(tracksQuery).then((res) =>
-      setCurrentPlaylist((curr) =>
-        curr
-          ? {
-              ...curr,
-              name: firebasePlaylistData.name,
-              password: firebasePlaylistData.password,
-            }
-          : curr
-      )
-    );
+    getDocs(tracksQuery).then((res) => {
+      const resa = res.docs.map((doc) => doc.data());
+      console.log(resa);
+      setCurrentPlaylist(
+        (curr) =>
+          ({
+            ...curr,
+            name: firebasePlaylistData.name,
+            password: firebasePlaylistData.password,
+            tracks: resa.map((val) => ({ ...val, reactions: [] })),
+          } as any)
+      );
+    });
   }, []);
 
   const [currentPlaylist, setCurrentPlaylist] = useRecoilState(playlistState);
@@ -76,7 +78,7 @@ const Playlist: React.FC = () => {
         curr
           ? {
               ...curr,
-              reactions: [...curr.reactions, reaction],
+              reactions: [...(curr.reactions || []), reaction],
             }
           : curr
       );
@@ -154,6 +156,7 @@ const Playlist: React.FC = () => {
   };
 
   useFloatingReactions(currentPlaylist?.reactions);
+  console.log({ currentPlaylist });
 
   if (!currentPlaylist) {
     return (
