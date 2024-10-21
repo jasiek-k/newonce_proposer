@@ -6,13 +6,14 @@ class ApiService {
   service: AxiosInstance;
 
   constructor() {
-    let service = axios.create({
+    const service = axios.create({
       baseURL: API_BASE,
       headers: {
         Accept: "application/json text/plain",
         "Content-Type": "application/json;charset=UTF=8",
       },
     });
+
     this.service = service;
   }
 
