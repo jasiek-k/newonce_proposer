@@ -1,6 +1,6 @@
-# Getting Started with Create React App
+# Newonce Playlist Proposer
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This application was developed during the 24 hour [Newonce Hackathon](https://newonce.net/artykul/razem-z-el-passion-organizujemy-jedyny-taki-hackaton-stworzcie-z-nami-innowacyjna-aplikacje). Its goal was to create innovative music application, so this is our response. We have developed this playlist proposer, which creates playlists for your party using the `Spotify API`, basing on the chosen artists and albums.
 
 ## Available Scripts
 
